@@ -1,43 +1,43 @@
 # frozen_string_literal: true
 
+# Binary search is used to find the index
+# of an element in a sorted array
 class BinarySearch
   # Runtime Complexity: Logarithmic, O(logn)
   # Memory Complexity: Logarithmic, O(logn)
-  def self.recursive(a, key, low, high)
-    if low > high
-      return -1
-    end
+  #
+  # Recursive solution has O(logn) memory complexity
+  # as it will consume memory on the stack.
+  def self.recursive(list, key, low, high)
+    return -1 if low > high
 
     mid = low + ((high - low) / 2)
-    if a[mid] == key
-      return mid
-    elsif key < a[mid]
-      return self.recursive(a, key, low, mid - 1)
-    else
-      return self.recursive(a, key, mid + 1, high)
-    end
+
+    return mid if list[mid] == key
+
+    return recursive(list, key, low, mid - 1) if key < list[mid]
+
+    recursive(list, key, mid + 1, high)
   end
 
   # Runtime Complexity: Logarithmic, O(logn)
   # Memory Complexity: Constant, O(1)
-  def self.iterative(a, key)
+  #
+  # Iterative solution has same O(logn) runtime complexity
+  # but has better memory complexity.
+  def self.iterative(list, key)
     low = 0
-    high = a.length - 1
+    high = list.length - 1
 
     while low <= high
       mid = low + ((high - low) / 2)
 
-      if a[mid] == key
-        return mid
-      end
+      return mid if list[mid] == key
 
-      if key < a[mid]
-        high = mid - 1
-      else
-        low = mid + 1
-      end
+      high = mid - 1 if key < list[mid]
+      low = mid + 1 if key > list[mid]
     end
 
-    return -1
+    -1
   end
 end
